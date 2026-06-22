@@ -124,7 +124,7 @@ def _get_asset_file_path(package_name: str) -> str:
         package_name: 如 /Game/MyMaps/BluePrint/BP_Player
 
     Returns:
-        E:\\AAA.Program\\UEStudy\\Mydemo\\Demo02 5.7\\Content\\MyMaps\\BluePrint\\BP_Player.uasset
+        /Path/To/Your/UE_Project/Content/MyMaps/BluePrint/BP_Player.uasset
     """
     try:
         content_dir = unreal.Paths.convert_relative_path_to_full(
