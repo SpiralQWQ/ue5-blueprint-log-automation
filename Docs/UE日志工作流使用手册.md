@@ -150,7 +150,7 @@ py "/Path/To/Your/UE_Project/tools/export_bp_metadata.py"
 2. 过滤 `Blueprint` / `WidgetBlueprint` / `AnimBlueprint` 类型
 3. 排除 `/Engine/`、`/Game/StarterContent/`、`/Game/FirstPerson/` 等官方路径
 4. 每个蓝图调用 C++ `unreal.BlueprintTopologyExporter.dump_blueprint_logic_to_json(bp)` 提取拓扑
-5. 输出 `ue_blueprint_status.json`（26 蓝图 × 完整节点图 ≈ 1.2MB）
+5. 输出 `AssessStatus_Json/ue_blueprint_status_<项目名>.json`（自动按 .uproject 文件名命名，26 蓝图 × 完整节点图 ≈ 1.2MB）
 
 **输出 JSON 结构**：
 
@@ -483,7 +483,7 @@ E:\AAA.Program\UEStudy\UE_5.7\Engine\Build\BatchFiles\Build.bat ^
 └─────────────────────┬───────────────────────────────────────────┘
                       │
                       ▼
-         ue_blueprint_status.json  (1.2MB, 26 蓝图 x 完整节点拓扑)
+         AssessStatus_Json/ue_blueprint_status_<项目名>.json  (1.2MB, 26 蓝图 x 完整节点拓扑)
                       │
                       ▼
 ┌─────────────────────────────────────────────────────────────────┐
