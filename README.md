@@ -1,124 +1,107 @@
-# UE5 Blueprint Log Automation Toolchain
-
 <p align="center">
-  <img src="https://img.shields.io/badge/UE-5.7-blue?logo=unrealengine" alt="UE 5.7">
-  <img src="https://img.shields.io/badge/Python-3.12+-green?logo=python" alt="Python 3.12+">
-  <img src="https://img.shields.io/badge/C++-Plugin-orange?logo=cplusplus" alt="C++ Plugin">
-  <img src="https://img.shields.io/badge/AI_Review-Qwen_Max-purple?logo=alibabacloud" alt="Qwen Max">
-  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT">
+  <picture>
+    <source media="(prefers-color-scheme: dark)">
+    <img alt="UE5 Blueprint Automation" src="https://img.shields.io/badge/Unreal_Engine-5.7-%23313878?logo=unrealengine" />
+  </picture>
+  <br/>
+  <img src="https://img.shields.io/badge/Python-3.12+-3776AB?logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/C++-Plugin-00599C?logo=cplusplus" alt="C++" />
+  <img src="https://img.shields.io/badge/AI_Review-Qwen_%2B_Gemini-8B5CF6?logo=openai" alt="AI Review" />
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT" />
+  <img src="https://img.shields.io/badge/platform-Windows-0078D6?logo=windows" alt="Windows" />
 </p>
 
-<p align="center"><b>一条命令，从 UE5 蓝图到结构化设计文档，全自动 AI 审阅。</b></p>
+<h1 align="center">UE5 Blueprint Log Automation</h1>
+
+<p align="center">
+  <b>One command. Blueprint node graph → Structured design doc → AI review. Fully automated.</b>
+  <br/><br/>
+  <sub>Built by a UE5 developer who refuses to manually update 100-page design documents.</sub>
+</p>
 
 ---
 
-## 📖 这是什么？
+## Why This Exists
 
-一个专为 **Unreal Engine 5 蓝图开发者** 设计的自动化工具链。你在 UE5 中修改蓝图后，只需一行命令，系统自动完成：
+You modify a Blueprint in UE5. Great. Now you need to document what changed — which nodes, which pins, which connections, which variables. For 26+ Blueprints. Across 5 maps. Every time.
 
-1. **C++ 插件穿透蓝图节点图** — 提取每个节点的类型、引脚、连线、变量名
-2. **Python 脚本导出为结构化 JSON** — 26 个蓝图的完整拓扑，约 1.2MB
-3. **Claude Code Skill 五阶段自动化流水线** — 版本归档 → 笔记+拓扑交叉比对 → 结构化注入设计文档 → diff 验证 → AI 审阅
-4. **Qwen-Max 自动审阅** — 架构合理性、技术准确性、文档覆盖率三重检查
-
-**核心理念**：让你的设计文档成为"单一事实来源（Single Source of Truth）"，内容是蓝图节点图的真实投影，格式遵循 Knope + keepachangelog + Apple HIG 排版美学。
-
----
-
-## ✨ Feature Highlights
-
-| 特性 | 说明 |
-|------|------|
-| 🔬 **C++ 节点穿透** | 13 种 `K2Node_*` Cast 链，从 `UEdGraph` → `UEdGraphNode` → `UEdGraphPin` → `LinkedTo[]`，完整还原连线拓扑 |
-| 🤖 **AI 双重审查** | 每次更新自动调 Qwen-Max 审阅架构/准确性/覆盖率；支持 Gemini 3.5 Flash 手动审阅 |
-| 📝 **版本化管理** | 每次更新自动归档旧版 (`Old_DemoMateria_vX.X.X`)、生成新版 (`DemoMaterial_vX.X.X`)，全程无删减 |
-| 🎨 **工业级排版** | 对标 Knope Changelog、keepachangelog、UE5 Release Notes、Apple HIG、Stripe 文档美学 |
-| 🔗 **Obsidian 协同** | 与 Obsidian + RealClaudian 插件无缝联动，笔记 ↔ Agent 双向驱动 |
-| 🛡️ **安全红线** | 词汇禁忌（禁止 JSON/拓扑确认/脚本提取 等泄露工具链痕迹）、数据守恒（只增不删） |
-
----
-
-## 📁 仓库结构
+**This toolchain automates the entire pipeline:**
 
 ```
-UE日志工作流开源/
-├── README.md                       ← 本文件
-├── Claude_Skill/
-│   └── SKILL.md                    ← Claude Code Skill 定义（五阶段流水线）
-├── Scripts/
-│   ├── export_bp_metadata.py       ← UE5 Python 导出脚本（370+ 行）
-│   └── qwen_reviewer.py            ← Qwen-Max AI 审阅脚本
-├── UE_CPP_Plugin/
-│   ├── BlueprintTopologyExporter.h ← C++ 蓝图拓扑导出器头文件
-│   └── BlueprintTopologyExporter.cpp ← C++ 蓝图拓扑导出器实现
-└── Docs/
-    ├── 工具链使用手册.md            ← 完整工具链使用手册（中文）
-    └── Obsidian_Integration.md     ← Obsidian + RealClaudian 协同指南
+You edit Blueprints in UE5
+         │
+  [C++ Plugin] ── penetrates UEdGraph → UEdGraphNode → UEdGraphPin → LinkedTo[]
+         │
+  [Python Script] ── exports complete topology for ALL Blueprints in the project
+         │
+  [Claude Code Skill] ── 5-phase pipeline: archive → diff → inject → verify → review
+         │
+  [AI Review] ── Qwen-Max + Gemini 3.5 Flash: architecture, accuracy, coverage
+         │
+  ✅ Versioned, structured, AI-reviewed design document. Zero manual effort.
 ```
+
+**No more "I'll document it later."**
 
 ---
 
-## 🚀 环境要求
+## ✨ What You Get
 
-| 组件 | 版本要求 | 用途 |
-|------|---------|------|
-| **Unreal Engine** | 5.7 | 蓝图开发 + 运行 Python 导出脚本 |
-| **Python** | 3.12+ | 导出脚本运行环境（UE5 内嵌 Python） |
-| **Claude Code** | Latest | AI Agent，驱动自动化流水线 |
-| **Obsidian** (可选) | 1.x+ | 笔记编写 + RealClaudian 会话同步 |
-| **RealClaudian Plugin** (可选) | Latest | Obsidian 社区插件，管理 Claude Code 会话 |
-
-> **硬件要求**: UE5 编辑器可正常运行即可。C++ 插件编译需要 Visual Studio 2022 + Windows SDK。
+<table>
+<tr><td width="140"><b>🔬 Deep Node Penetration</b></td><td>13 <code>K2Node_*</code> type casts. From <code>UEdGraph</code> → <code>UEdGraphNode</code> → <code>UEdGraphPin</code> → <code>LinkedTo[]</code>. Complete wiring topology.</td></tr>
+<tr><td><b>🤖 Dual AI Review</b></td><td>Auto-trigger Qwen-Max after every update. Manual Gemini 3.5 Flash for adversarial verification. Architecture × Accuracy × Coverage.</td></tr>
+<tr><td><b>📦 Versioned Archive</b></td><td>Every update: old version → <code>DemoMaterial_VersionUpdating/</code>, new version → <code>DemoMaterial_vX.X.X.md</code>. Zero deletion policy.</td></tr>
+<tr><td><b>🎨 Industrial-Grade Typesetting</b></td><td>Apple Badge capsules for all 17 UE5 class types. Knope-style card blocks. keepachangelog versioning. Apple HIG 1px dividers.</td></tr>
+<tr><td><b>📓 Obsidian + RealClaudian</b></td><td>Seamless Obsidian integration. Your notes + Agent workflow = bidirectional knowledge engine.</td></tr>
+<tr><td><b>🛡️ Production Hardened</b></td><td>Vocabulary taboo (no "JSON/topology/script" traces in design docs). Data integrity rules. Comprehensive .gitignore.</td></tr>
+</table>
 
 ---
 
-## 📦 安装
+## 🚀 Quick Start
 
-### 1. 克隆仓库
+### Prerequisites
 
-```bash
-git clone https://github.com/yourusername/UE5-Blueprint-Log-Automation.git
-cd UE5-Blueprint-Log-Automation
+| Component | Version |
+|-----------|---------|
+| Unreal Engine | 5.7 |
+| Python | 3.11+ (UE5 embedded) |
+| Claude Code | Latest |
+| Obsidian *(optional)* | 1.x+ |
+
+### 1. Install the C++ Plugin
+
+Copy `UE_CPP_Plugin/` into your UE5 project's `Source/` directory:
+
 ```
-
-### 2. 安装 C++ 插件
-
-将 `UE_CPP_Plugin/` 中的文件复制到你的 UE5 项目的 `Source/` 目录下：
-
-```
-Your_UE_Project/
+YourProject/
 └── Source/
     └── YourModule/
-        ├── YourModule.Build.cs       ← 添加 Json, JsonUtilities, BlueprintGraph 等依赖
+        ├── YourModule.Build.cs        ← add Json, JsonUtilities, BlueprintGraph dependencies
         ├── Public/
         │   └── BlueprintTopologyExporter.h
         └── Private/
             └── BlueprintTopologyExporter.cpp
 ```
 
-**Build.cs 必需依赖**（添加到你的模块构建文件）：
+**Required Build.cs dependencies:**
 
 ```csharp
 PrivateDependencyModuleNames.AddRange(new string[] {
-    "UnrealEd",
-    "BlueprintGraph",
-    "KismetCompiler",
-    "Kismet",
-    "Json",
-    "JsonUtilities"
+    "UnrealEd", "BlueprintGraph", "KismetCompiler", "Kismet",
+    "Json", "JsonUtilities"
 });
 ```
 
-编译前**关闭 UE5 编辑器**，然后执行：
+Close UE5 Editor, then compile:
 
 ```bash
-# Windows (UE 5.7 示例)
-E:\UE_5.7\Engine\Build\BatchFiles\Build.bat YourProjectEditor Win64 Development "YourProject.uproject"
+UE_5.7/Engine/Build/BatchFiles/Build.bat YourProjectEditor Win64 Development "YourProject.uproject"
 ```
 
-### 3. 配置环境变量
+### 2. Set API Keys
 
-在 Claude Code 的 `settings.json` 中配置 AI 审阅所需的 API Key：
+In Claude Code's `settings.json`:
 
 ```json
 {
@@ -129,199 +112,180 @@ E:\UE_5.7\Engine\Build\BatchFiles\Build.bat YourProjectEditor Win64 Development 
 }
 ```
 
-### 4. 安装 Claude Code Skill
+### 3. Install the Claude Code Skill
 
-将 `Claude_Skill/SKILL.md` 复制到以下任一位置：
+Copy `Claude_Skill/SKILL.md` to:
 
-- **项目级**: `Your_UE_Project/.claude/skills/ue-daily-logger/SKILL.md`
-- **全局**: `~/.claude/skills/ue-daily-logger/SKILL.md`
+- **Per-project**: `YourProject/.claude/skills/ue-daily-logger/SKILL.md`
+- **Global**: `~/.claude/skills/ue-daily-logger/SKILL.md`
 
-### 5. 设置 Obsidian (可选)
+### 4. Run
 
-1. 在 UE 项目根目录初始化 Obsidian Vault
-2. 创建 `UENoteBook/` 目录存放开发笔记
-3. 安装 RealClaudian 社区插件实现会话同步
-4. 详细配置见 [`Docs/Obsidian_Integration.md`](Docs/Obsidian_Integration.md)
+```
+UE5 Editor → Window → Output Log → Switch to Python mode:
+
+py "/Path/To/Your/Project/tools/export_bp_metadata.py"
+```
+
+Then tell Claude Code:
+
+```
+更新UE日志
+```
+
+**That's it.** The pipeline handles everything else.
 
 ---
 
-## 🎮 使用方法
-
-### 日常工作流
+## 🏗️ Architecture
 
 ```
-步骤 1: 在 UE5 中修改蓝图
-        │
-步骤 2: 导出蓝图拓扑 JSON
-        UE5 → Window → Output Log → 切换 Python → 输入：
-        py "/Path/To/Your/UE_Project/tools/export_bp_metadata.py"
-        │  输出: 26 蓝图已导出，1.2MB JSON 生成 ✅
-        │
-步骤 3: 在 Obsidian 中记录开发笔记
-        写入 UENoteBook/ 对应笔记文件
-        │
-步骤 4: 对 Claude Code 说
-        "更新UE日志"
-        │
-        ▼ 自动化流水线自动执行:
-        ├─ 阶段一: 询问确认（回复"确认"继续）
-        ├─ 阶段二: 版本归档（旧版 → Old_DemoMateria_vX.X.X.md）
-        ├─ 阶段三: 排版注入（JSON 拓扑 + 笔记 → 卡片化设计文档）
-        ├─ 阶段四: diff 验证（表格完整性检查）
-        └─ 阶段五: Qwen-Max 审阅（报告存 Review_Docs/）
+┌─────────────────────────────────────────┐
+│              UE5 Editor                   │
+│                                           │
+│  Blueprints → C++ Plugin → Python Script  │
+│            → AssessStatus_Json/*.json     │
+└────────────────┬──────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────────────┐
+│         Claude Code Pipeline              │
+│                                           │
+│  1. Parse topology (13 K2Node types)      │
+│  2. Read developer notes (UENoteBook/)    │
+│  3. Cross-reference → diff detection      │
+│  4. Inject into card-based design doc     │
+│  5. Validate table integrity              │
+│  6. AI review (Qwen-Max auto)             │
+└────────────────┬──────────────────────────┘
+                 │
+                 ▼
+     DemoMaterial_vX.X.X.md (design doc)
+     Review_Docs/NN_Qwen_Review_*.md (audit reports)
 ```
 
-### 命令速查
-
-| 操作 | 命令/触发词 |
-|------|------------|
-| 导出 JSON | `py "/Path/To/Your/UE_Project/tools/export_bp_metadata.py"`（UE5 Python 模式） |
-| 更新日志 | 对 Claude Code 说 "更新UE日志" |
-| Qwen 审阅 | "发给 Qwen 审阅" |
-| Gemini 审阅 | "发给 Gemini 审阅" |
-| 编译 C++ 插件 | `Build.bat YourProjectEditor Win64 Development "项目.uproject"` |
-
----
-
-## 🏗️ 系统架构
-
-```
-┌──────────────────────────────────────────────────────┐
-│                    UE5 编辑器                          │
-│                                                      │
-│  [蓝图资产] → C++ BlueprintTopologyExporter           │
-│              → Python export_bp_metadata.py           │
-│              → AssessStatus_Json/ue_blueprint_status_<项目名>.json (1.2MB) │
-└─────────────────────┬────────────────────────────────┘
-                      │
-                      ▼
-┌──────────────────────────────────────────────────────┐
-│               Claude Code 自动化层                     │
-│                                                      │
-│  1. JSON 拓扑解析 (13种 K2Node, 完整引脚+连线)        │
-│  2. UENoteBook 笔记读取 (理解设计意图)                │
-│  3. 交叉比对 (JSON 数据 vs 文档现有内容 → 差异清单)    │
-│  4. 结构化注入 (Knope 卡片化区块 + Apple HIG 排版)     │
-│  5. diff 验证 (管道符对齐 + 零删减检查)               │
-│  6. Qwen-Max API 审阅 (架构/准确性/覆盖率)            │
-└─────────────────────┬────────────────────────────────┘
-                      │
-                      ▼
-            DemoMaterial_vX.X.X_时间戳.md  (设计文档)
-            Review_Docs/NN_Qwen_Review_*.md    (审阅报告)
-```
-
-### C++ 节点穿透链路
+### C++ Node Penetration Chain
 
 ```
 UBlueprint
-  ├─ UbergraphPages[]          ← 事件图 (EventGraph, BeginPlay, Tick)
-  └─ FunctionGraphs[]          ← 自定义函数图 (BPI 实现, 纯函数)
+  ├─ UbergraphPages[]         ← Event graphs (BeginPlay, Tick, custom events)
+  └─ FunctionGraphs[]         ← Function graphs (BPI implementations, pure functions)
         │
         ▼
-      UEdGraph                 ← 单个图表
-        └─ Nodes[]             ← UEdGraphNode 数组
-              ├─ K2Node_CallFunction   → 函数调用 → FunctionReference
-              ├─ K2Node_Event         → 引擎事件 → EventReference
-              ├─ K2Node_CustomEvent   → 自定义事件 → CustomFunctionName
-              ├─ K2Node_VariableGet   → 读变量 → VariableReference
-              ├─ K2Node_VariableSet   → 写变量 → VariableReference
-              ├─ K2Node_Timeline      → 时间线 → TimelineName
-              ├─ K2Node_DynamicCast   → Cast → TargetType
-              ├─ K2Node_IfThenElse    → Branch
-              └─ ... (共 13 种)
-              └─ Pins[]       ← UEdGraphPin 数组
-                    ├─ PinId → FGuid 全局唯一标识
-                    ├─ PinName → "exec" / "then" / "ReturnValue"
-                    ├─ Direction → EGPD_Input / EGPD_Output
-                    └─ LinkedTo[] → ★ 连线目标
+      UEdGraph                ← Single graph
+        └─ Nodes[]            ← UEdGraphNode array
+              ├─ K2Node_CallFunction   → function calls
+              ├─ K2Node_Event          → engine events
+              ├─ K2Node_CustomEvent    → custom events
+              ├─ K2Node_VariableGet/Set → variable access
+              ├─ K2Node_Timeline       → timeline nodes
+              ├─ K2Node_DynamicCast    → cast operations
+              ├─ K2Node_IfThenElse     → branch nodes
+              └─ ... (13 types total)
+              └─ Pins[]       ← UEdGraphPin array
+                    ├─ PinId          → FGuid (globally unique)
+                    ├─ PinName        → "exec" / "then" / "ReturnValue"
+                    ├─ Direction      → EGPD_Input / EGPD_Output
+                    └─ LinkedTo[]     → ★ connection targets
 ```
 
 ---
 
-## 🔒 隐私与安全
+## 📊 Real-World Stats
 
-### 脱敏声明
+From actual production deployment across 2 UE5 projects:
 
-本项目所有示例文件已完成隐私脱敏：
-
-- 绝对路径 → 通用占位符 (`/Path/To/Your/UE_Project/`)
-- Windows 用户名 → `YourUsername`
-- API Key → `YOUR_API_KEY_HERE`
-
-**开始使用前，请务必设置你自己的路径和 API Key。**
-
-### ⚠️ 知识产权保护（重要）
-
-本工具链导出的 `AssessStatus_Json/ue_blueprint_status_<项目名>.json` 包含完整的蓝图节点拓扑——即你的**核心游戏逻辑**。请严格遵守以下规则：
-
-- 🚫 **禁止提交** `AssessStatus_Json/` 目录到公共 Git 仓库（`.gitignore` 已默认排除）
-- 🚫 **禁止提交** `Saved/BlueprintTopology/` 目录
-- ✅ 使用仓库自带的 `.gitignore` 文件自动排除敏感输出
-- ✅ 将 `.gitignore` 复制到你的 UE 项目根目录
-
-### API Key 安全
-
-- 所有 API Key 通过**环境变量**读取，不硬编码在源码中
-- 未配置环境变量时脚本立即终止 (`sys.exit(1)`) ，不会回退到任何硬编码值
-- 推荐使用 `.env` 文件管理 Key（`.gitignore` 已排除 `*.env`）
+| Metric | Value |
+|--------|-------|
+| Total Blueprints | 105 (79 Demo01 + 26 Demo02) |
+| Largest Blueprint | `BP_BallAdventurePlayerPawn` — 227 nodes, 175 connections |
+| BPI Interfaces | 5 suites across both projects |
+| Design Doc Iterations | 7 versions (v1.0.0 → v1.0.7) |
+| C++ Exporter | ~400 lines C++ + ~700 lines Python |
 
 ---
 
-## 📄 文件命名规范
+## 🔒 Security
 
-### 设计文档
+### Privacy Audit
 
-| 类型 | 格式 | 示例 |
-|------|------|------|
-| 活跃版本 | `DemoMaterial_vX.X.X_YYYYMMDD_HH.md` | `DemoMaterial_v1.0.6_20260621_21.md` |
-| 归档版本 | `Old_DemoMateria_vX.X.X_YYYYMMDD_HH.md` | `Old_DemoMateria_v1.0.5_20260621_20.md` |
-| Qwen 审阅 | `NN_Qwen_Review_vX.X.X_YYYYMMDD_HH.md` | `15_Qwen_Review_v1.0.6_20260621-2219.md` |
-| Gemini 审阅 | `NN_Gemini_Review_vX.X.X_YYYYMMDD_HH.md` | `14_Gemini_Review_v1.0.6_20260621-2219.md` |
+All files in this repository have been sanitized:
 
-### 蓝图资产
+- Absolute paths → `/Path/To/Your/UE_Project/`
+- Usernames → `YourUsername`
+- API Keys → `YOUR_API_KEY_HERE`
 
-| 前缀 | 类型 | 示例 |
-|------|------|------|
-| `BP_` | Blueprint Actor | `BP_Door01`, `BP_Crystal` |
-| `BPI_` | Blueprint Interface | `BPI_Interact` |
-| `WBP_` | Widget Blueprint | `WBP_DeathScreen` |
-| `IA_` | Input Action | `IA_Jump` |
-| `IMC_` | Input Mapping Context | `IMC_Ball` |
-| `E_` | Enum | `E_PlayerAttributes` |
+### ⚠️ Intellectual Property Warning
+
+The exported `AssessStatus_Json/ue_blueprint_status_*.json` contains your **complete Blueprint logic**. Never commit it to public repositories. The provided `.gitignore` already excludes `AssessStatus_Json/`.
+
+### API Key Safety
+
+- All keys read from environment variables, **never hardcoded**
+- Missing keys → immediate `sys.exit(1)`, no fallback
+- Use `.env` files locally (`.gitignore` excludes `*.env`)
 
 ---
 
-## 📊 项目统计 (参考数据)
+## 📂 Repository Structure
 
-以下数据来自本工具链的实际生产部署（26 个蓝图项目）：
-
-| 指标 | 数值 |
-|------|------|
-| 蓝图总数 | 26 (22 Blueprint + 4 WidgetBlueprint) |
-| BPI 接口 | 5 套 |
-| 最大蓝图 | `BP_BallAdventurePlayerPawn` (227 节点 / 175 连线 / 43 函数 / 10 事件 / 15 变量) |
-| JSON 大小 | ~1.2MB / 次导出 |
-| C++ 导出器 | 370 行 Python + 400 行 C++ |
+```
+UE5-Blueprint-Log-Automation/
+├── README.md
+├── README_zh.md                       ← 中文版
+├── LICENSE
+├── .gitignore
+├── requirements.txt
+├── Claude_Skill/
+│   └── SKILL.md                       ← 5-phase pipeline definition
+├── Scripts/
+│   ├── export_bp_metadata.py          ← UE5 Python exporter (~700 lines)
+│   └── qwen_reviewer.py              ← Qwen-Max review script
+├── UE_CPP_Plugin/
+│   ├── BlueprintTopologyExporter.h    ← C++ header
+│   └── BlueprintTopologyExporter.cpp  ← C++ implementation (~400 lines)
+└── Docs/
+    ├── UE日志工作流使用手册.md         ← Full manual (Chinese)
+    └── Obsidian_Integration.md        ← Obsidian setup guide
+```
 
 ---
 
-## 🤝 贡献
+## 🎨 Apple Badge Color System (v1.0.10)
 
-欢迎提交 Issue 和 Pull Request。在提交前请确保：
+All 17 UE5 class types have color-coded badges in design documents:
 
-1. 代码符合 UE5 C++ 编码标准
-2. Python 脚本通过 PEP 8 检查
-3. 文档更新与代码变更同步
+| Color | Hex | Types |
+|-------|-----|-------|
+| 🔵 Blue | `#3b82f6` | Actor / Pawn / PlayerController / GameModeBase / StaticMeshActor |
+| 🟢 Green | `#10b981` | Interface |
+| 🟣 Purple | `#8b5cf6` | UserWidget |
+| 🩵 Cyan | `#06b6d4` | Input Action / Input Mapping Context |
+| 🟠 Amber | `#f59e0b` | Enum |
+| 🟠 Orange | `#f97316` | Material / MaterialInstance / MaterialFunction |
+| 💜 Indigo | `#6366f1` | Behavior Tree / Blackboard / BT Task |
+| 🩷 Pink | `#ec4899` | AnimMontage / AnimSequence / Blend Space / AnimBlueprint |
+| 🩶 Slate | `#64748b` | Static Mesh |
+| ⬜ Gray | `#6b7280` | Custom inherited classes |
 
 ---
 
-## 📜 许可
+## 🤝 Contributing
 
-MIT License — 详见 [LICENSE](LICENSE) 文件。
+Bug reports and pull requests welcome. Before submitting:
+
+1. Follow UE5 C++ coding standards
+2. Python scripts pass PEP 8
+3. Documentation updated with code changes
+
+---
+
+## 📜 License
+
+MIT © SpiralQWQ
 
 ---
 
 <p align="center">
-  <sub>Built with ❤️ by a UE5 developer who hates manually updating design docs.</sub>
+  <sub>If this saved you 100 hours of manual documentation — ⭐ the repo.</sub>
 </p>
