@@ -52,7 +52,9 @@
 │   ├── GEMINI_CONTEXT_REPORT.md         ← Gemini 上下文报告
 │   └── CPP_REFLECTION_DESIGN.md         ← C++ 反射设计文档
 │
-├── ue_blueprint_status.json             ← [自动生成] 蓝图拓扑 JSON（~1.2MB）
+├── AssessStatus_Json/                   ← [自动生成] 蓝图拓扑 JSON 存放目录
+│   ├── ue_blueprint_status_Demo02.json  ← Demo02 蓝图数据
+│   └── ue_blueprint_status_myde01.json  ← Demo01 蓝图数据
 │
 ├── DemoMaterial_vX.X.X_YYYYMMDD_HH.md   ← [版本化] 设计日志（当前活跃版本）
 ├── DemoMaterial_VersionUpdating/        ← [归档] 历史版本

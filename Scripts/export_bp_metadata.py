@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 export_bp_metadata.py — UE5 蓝图资产元数据导出工具
 ====================================================
@@ -6,15 +6,15 @@ export_bp_metadata.py — UE5 蓝图资产元数据导出工具
 
 用法（任选一种）：
   1. 在 UE5 Output Log 中选择 Python 模式，执行：
-     py "/Path/To/Your/UE_Project/tools/export_bp_metadata.py"
+     py "E:/AAA.Program/UEStudy/Mydemo/tools/export_bp_metadata.py"
 
   2. 或在 UE5 Python 控制台中：
      import sys
-     sys.path.append(r"/Path/To/Your/UE_Project/tools")
+     sys.path.append(r"E:/AAA.Program/UEStudy/Mydemo/tools")
      import export_bp_metadata
      export_bp_metadata.main()
 
-输出文件：/Path/To/Your/UE_Project/ue_blueprint_status.json
+输出文件：/Path/To/Your/UE_Project/AssessStatus_Json/ue_blueprint_status_<项目名>.json
 """
 
 from __future__ import annotations
@@ -30,9 +30,19 @@ from typing import Any, Dict, List, Optional, Tuple
 # 配置区
 # ============================================================================
 
-# 输出路径
-OUTPUT_DIR: str = r"/Path/To/Your/UE_Project"
-OUTPUT_FILE: str = "ue_blueprint_status.json"
+# 输出路径 —— 自动按项目名分文件，存放于项目根目录下的 AssessStatus_Json/
+import json as _json
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUTPUT_DIR: str = os.path.join(_PROJECT_ROOT, "AssessStatus_Json")
+
+def _get_project_name() -> str:
+    """从项目根目录的 .uproject 文件名提取项目名"""
+    for f in os.listdir(_PROJECT_ROOT):
+        if f.endswith(".uproject"):
+            return f.replace(".uproject", "")
+    return "UnknownProject"
+
+OUTPUT_FILE: str = f"ue_blueprint_status_{_get_project_name()}.json"
 
 # 扫描范围
 SCAN_PATHS: List[str] = ["/Game/"]
@@ -92,24 +102,6 @@ except ModuleNotFoundError:
 # ============================================================================
 # 辅助工具
 # ============================================================================
-
-def _get_project_name() -> str:
-    """获取当前 UE 项目名称。"""
-    try:
-        return unreal.Paths.get_project_file_path().split("/")[-1].replace(".uproject", "")
-    except Exception:
-        try:
-            # 回退：从磁盘读项目文件名
-            uproject_files = [
-                f for f in os.listdir(OUTPUT_DIR)
-                if f.endswith(".uproject")
-            ]
-            if uproject_files:
-                return uproject_files[0].replace(".uproject", "")
-        except Exception:
-            pass
-    return "Unknown"
-
 
 def _get_asset_file_path(package_name: str) -> str:
     """
@@ -656,7 +648,7 @@ def main() -> None:
     主入口 — 扫描蓝图资产并导出为 JSON。
 
     在 UE5 Output Log (Python) 中执行：
-        py "/Path/To/Your/UE_Project/tools/export_bp_metadata.py"
+        py "E:/AAA.Program/UEStudy/Mydemo/tools/export_bp_metadata.py"
     """
     if not UNREAL_AVAILABLE:
         print("=" * 60)
@@ -671,7 +663,7 @@ def main() -> None:
         print(f"     py \"{os.path.join(OUTPUT_DIR, 'tools', 'export_bp_metadata.py').replace(chr(92), '/')}\"")
         print()
         print("  或者复制粘贴以下命令：")
-        print(f"  py \"/Path/To/Your/UE_Project/tools/export_bp_metadata.py\"")
+        print(f"  py \"E:/AAA.Program/UEStudy/Mydemo/tools/export_bp_metadata.py\"")
         print()
         return
 
