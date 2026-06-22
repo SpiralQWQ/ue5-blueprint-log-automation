@@ -132,7 +132,7 @@
 - `<pre>` + 等宽字体包裹 ASCII 图（对标 Stripe 代码块美学）。
 - `<ul style="line-height:1.8">` 列表呼吸感（对标 Apple 排版微调）。
 - 表格仅做索引，蓝图详细逻辑独立为 `####` 卡片。
-- **Apple Badge 短码**：父类名统一用 `{TypeName}` 短码替代原始 HTML（如 `{Pawn}`、`{Actor}`、`{Interface}`），文档顶部附短码→色值映射表。颜色约定：蓝 `#3b82f6`=Actor/Pawn/Controller/GameMode，绿 `#10b981`=Interface，紫 `#8b5cf6`=UserWidget，青 `#06b6d4`=Input Action/IMC，琥珀 `#f59e0b`=Enum。
+- **Apple Badge**：所有 UE5 类名统一使用 `<span style="font-size:12px;background-color:rgba(R,G,B,0.1);color:#HEX;padding:2px 8px;border-radius:12px;font-weight:600">类名</span>` 彩色胶囊包裹。颜色映射：蓝 `#3b82f6`=Actor/Pawn/PlayerController/GameModeBase/StaticMeshActor，绿 `#10b981`=Interface，紫 `#8b5cf6`=UserWidget，青 `#06b6d4`=Input Action/Input Mapping Context，琥珀 `#f59e0b`=Enum，橙 `#f97316`=Material/MaterialInstance/MaterialFunction，靛 `#6366f1`=Behavior Tree/Blackboard/BT Task，粉 `#ec4899`=AnimMontage/AnimSequence/Blend Space/AnimBlueprint，石板 `#64748b`=Static Mesh，灰 `#6b7280`=继承类。
 1. 自动调用 `/Path/To/Your/UE_Project/tools\qwen_reviewer.py`。
 2. 将 `v新版本号` 和 `当前时间戳` 传给 Python 脚本。
 3. 验证报告生成在 `/Path/To/Your/UE_Project/Review_Docs\NN_Qwen_Review_v新版本号_当前时间戳.md`（`NN_` 为递增序号，扫描目录最大编号 +1，确保最新报告排在最末）。完成后输出执行摘要。

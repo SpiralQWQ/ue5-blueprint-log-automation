@@ -554,22 +554,22 @@ E:\AAA.Program\UEStudy\UE_5.7\Engine\Build\BatchFiles\Build.bat ^
 | v1.0.7 | `>` 容器包裹卡片 + 盘古之白 + 源码物理对齐 `\|` | Stripe + Apple HIG |
 | v1.0.8 | `<hr>` 1px 半透明分割 + `<pre>` ASCII 容器 + `<ul>` 呼吸感 | Apple 排版微调 + Stripe 代码块美学 |
 | v1.0.9 | Apple Badge 胶囊父类标识 + Emoji 克制（≤2/卡）+ 场景表卡片化 | Stripe API 文档 + Epic 严肃学术风格 |
+| v1.0.10 | Apple Badge 全类型拓展（+Material/AI/Animation/Mesh 色系） | 17 种类型全覆盖 |
 
-**v1.0.9 新增 — Apple Badge 父类胶囊标识**（Gemini R3 建议）：
+**v1.0.10 新增 — Apple Badge 全类型色系**：
 
-```html
-<!-- Pawn 用蓝色 -->
-<span style="font-size:12px;background-color:rgba(59,130,246,0.1);color:#3b82f6;padding:2px 8px;border-radius:12px;margin-left:8px;font-weight:600">Pawn</span>
-
-<!-- Interface 用绿色 -->
-<span style="...color:#10b981;background-color:rgba(16,185,129,0.1)...">Interface</span>
-
-<!-- UserWidget 用紫色 -->
-<span style="...color:#8b5cf6;background-color:rgba(139,92,246,0.1)...">UserWidget</span>
-
-<!-- Actor 用蓝色 -->
-<span style="...color:#3b82f6;background-color:rgba(59,130,246,0.1)...">Actor</span>
-```
+| 色系 | 色值 | 适用范围 |
+|------|------|---------|
+| 蓝 `#3b82f6` | Actor / Pawn / PlayerController / GameModeBase / StaticMeshActor |
+| 绿 `#10b981` | Interface |
+| 紫 `#8b5cf6` | UserWidget |
+| 青 `#06b6d4` | Input Action / Input Mapping Context |
+| 琥珀 `#f59e0b` | Enum |
+| 橙 `#f97316` | Material / MaterialInstance / MaterialFunction |
+| 靛 `#6366f1` | Behavior Tree / Blackboard / BT Task |
+| 粉 `#ec4899` | AnimMontage / AnimSequence / Blend Space / AnimBlueprint |
+| 石板 `#64748b` | Static Mesh |
+| 灰 `#6b7280` | 自定义继承类（如 Cube4_Blueprint_C） |
 
 ## 十、v1.0.6 实战验证 — 交互机制章节卡片示例
 
