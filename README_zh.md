@@ -6,10 +6,8 @@
   <img src="https://img.shields.io/badge/许可-MIT-green" />
 </p>
 
-<h1 align="center">UE5 蓝图日志自动化工具链</h1>
-
 <p align="center">
-  <b>一条命令。从蓝图节点图 → 结构化设计文档 → AI 审阅。全自动。</b>
+  <img src="Assets/banner_zh.png" alt="UE5 蓝图日志自动化工具链" width="800" />
 </p>
 
 ---

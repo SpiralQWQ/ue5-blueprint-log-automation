@@ -11,12 +11,8 @@
   <img src="https://img.shields.io/badge/platform-Windows-0078D6?logo=windows" alt="Windows" />
 </p>
 
-<h1 align="center">UE5 Blueprint Log Automation</h1>
-
 <p align="center">
-  <b>One command. Blueprint node graph → Structured design doc → AI review. Fully automated.</b>
-  <br/><br/>
-  <sub>Built by a UE5 developer who refuses to manually update 100-page design documents.</sub>
+  <img src="Assets/banner_en.png" alt="UE5 Blueprint Log Automation" width="800" />
 </p>
 
 ---
