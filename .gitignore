@@ -1,0 +1,47 @@
+# ============================================
+# UE5 蓝图日志自动化工具链 — .gitignore
+# 将本文件复制到你的 UE 项目根目录使用
+# ============================================
+
+# === 密钥与凭据（绝对不能提交）===
+.env
+*.env
+*.env.local
+*.env.*.local
+secrets/
+credentials.json
+service-account.json
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# === IDE ===
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === UE5 生成文件（由工具链导出）===
+# 蓝图拓扑 JSON — 包含核心业务逻辑，绝对不能提交！
+ue_blueprint_status.json
+Saved/BlueprintTopology/
+Intermediate/
+DerivedDataCache/
+
+# === 笔记（按需决定是否提交）===
+# UENoteBook/ — 开发笔记，包含设计思考，建议提交
+# Review_Docs/ — AI 审阅报告，建议提交

@@ -1,0 +1,11 @@
+# UE5 蓝图日志自动化工具链 — Python 依赖
+# 请使用以下命令安装:
+#   pip install -r requirements.txt
+
+# HTTP 请求库（Qwen-Max / Gemini API 调用）
+requests>=2.31.0
+
+# 注意:
+# - openai 库仅当使用 OpenAI 兼容端点时需要，按需安装:
+#   pip install openai>=1.12.0
+# - 本工具链核心依赖 UE5 内嵌 Python 环境，上述依赖仅用于审阅脚本的外部调用
