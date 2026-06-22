@@ -31,21 +31,31 @@ from typing import Any, Dict, List, Optional, Tuple
 # ============================================================================
 
 # 输出路径 —— 自动按项目名分文件，存放于项目根目录下的 AssessStatus_Json/
-import json as _json
+# 注意：OUTPUT_FILE 在 main() 中延迟赋值（此时 unreal 已就绪），避免模块导入时取错项目名
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUTPUT_DIR: str = os.path.join(_PROJECT_ROOT, "AssessStatus_Json")
 
 def _get_project_name() -> str:
-    """从项目根目录的 .uproject 文件名提取项目名。找不到则抛异常，禁止静默回退。"""
-    for f in os.listdir(_PROJECT_ROOT):
-        if f.endswith(".uproject"):
-            return f.replace(".uproject", "")
+    """获取当前 UE 项目名。优先用 UE5 API（运行时），回退到磁盘扫描。"""
+    # 方法 1：UE5 运行时 API（最可靠，必须在 main() 中调用而非模块导入时）
+    try:
+        if UNREAL_AVAILABLE:
+            path = unreal.Paths.get_project_file_path()
+            if path:
+                return path.split("/")[-1].replace(".uproject", "")
+    except Exception:
+        pass
+    # 方法 2：递归扫描子目录中的 .uproject 文件（仅外部语法检查时回退）
+    for root, dirs, files in os.walk(_PROJECT_ROOT):
+        for f in files:
+            if f.endswith(".uproject"):
+                return f.replace(".uproject", "")
     raise FileNotFoundError(
-        f"[FATAL] 项目根目录 {_PROJECT_ROOT} 下未找到 .uproject 文件，无法确定项目名。"
-        "请确保在 UE 项目根目录下运行此脚本。"
+        f"[FATAL] {_PROJECT_ROOT} 及其子目录下未找到 .uproject 文件，无法确定项目名。"
     )
 
-OUTPUT_FILE: str = f"ue_blueprint_status_{_get_project_name()}.json"
+# 延迟到 main() 中赋值，避免模块导入时 unreal 未就绪导致取错项目名
+OUTPUT_FILE: str = ""
 
 # 扫描范围
 SCAN_PATHS: List[str] = ["/Game/"]
@@ -114,7 +124,7 @@ def _get_asset_file_path(package_name: str) -> str:
         package_name: 如 /Game/MyMaps/BluePrint/BP_Player
 
     Returns:
-        /Path/To/Your/UE_Project/Content/MyMaps/BluePrint/BP_Player.uasset
+        E:\\AAA.Program\\UEStudy\\Mydemo\\Demo02 5.7\\Content\\MyMaps\\BluePrint\\BP_Player.uasset
     """
     try:
         content_dir = unreal.Paths.convert_relative_path_to_full(
@@ -669,6 +679,10 @@ def main() -> None:
         print(f"  py \"E:/AAA.Program/UEStudy/Mydemo/tools/export_bp_metadata.py\"")
         print()
         return
+
+    # 延迟赋值：此时 unreal 已完全就绪，确保取到正确的项目名
+    global OUTPUT_FILE
+    OUTPUT_FILE = f"ue_blueprint_status_{_get_project_name()}.json"
 
     try:
         unreal.log("=" * 60)
