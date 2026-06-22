@@ -577,7 +577,24 @@ E:\AAA.Program\UEStudy\UE_5.7\Engine\Build\BatchFiles\Build.bat ^
 
 ```markdown
 | 蓝图 | 父类 | 功能定位 |          ← 轻量索引表，每列 ≤15 字
-| :--- | :--- | :------- |
+| :---
+
+**v1.0.10 新增 — Apple Badge 短码机制**（源码可读性优化）：
+
+父类名统一使用短码替代原始 HTML，文档顶部附短码-色值映射表：
+
+| 短码 | 色值 | 适用范围 |
+|------|------|---------|
+| Pawn / Actor / PlayerController / GameModeBase / StaticMeshActor | #3b82f6 蓝 | 游戏类 |
+| Interface | #10b981 绿 | 接口 |
+| UserWidget | #8b5cf6 紫 | UMG 控件 |
+| Input Action / Input Mapping Context | #06b6d4 青 | 增强输入 |
+| Enum | #f59e0b 琥珀 | 枚举 |
+
+短码格式：用花括号包裹类型名，如 `{Pawn}` `{Actor}` `{Interface}`。
+表格示例：`| BP_Door01 | {Actor} | 可开关门 |`
+标题示例：`#### {Actor} BP_Door01`
+ | :--- | :------- |
 
 #### 💠 BP_Crystal `(Actor)`
 > **功能定位**：可收集水晶 — VLerp 吸收动画 + Timeline 防抖

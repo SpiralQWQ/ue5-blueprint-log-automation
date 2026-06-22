@@ -132,8 +132,7 @@
 - `<pre>` + 等宽字体包裹 ASCII 图（对标 Stripe 代码块美学）。
 - `<ul style="line-height:1.8">` 列表呼吸感（对标 Apple 排版微调）。
 - 表格仅做索引，蓝图详细逻辑独立为 `####` 卡片。
-
-### 阶段四：联动 Qwen 审阅
+- **Apple Badge 短码**：父类名统一用 `{TypeName}` 短码替代原始 HTML（如 `{Pawn}`、`{Actor}`、`{Interface}`），文档顶部附短码→色值映射表。颜色约定：蓝 `#3b82f6`=Actor/Pawn/Controller/GameMode，绿 `#10b981`=Interface，紫 `#8b5cf6`=UserWidget，青 `#06b6d4`=Input Action/IMC，琥珀 `#f59e0b`=Enum。
 1. 自动调用 `/Path/To/Your/UE_Project/tools\qwen_reviewer.py`。
 2. 将 `v新版本号` 和 `当前时间戳` 传给 Python 脚本。
 3. 验证报告生成在 `/Path/To/Your/UE_Project/Review_Docs\NN_Qwen_Review_v新版本号_当前时间戳.md`（`NN_` 为递增序号，扫描目录最大编号 +1，确保最新报告排在最末）。完成后输出执行摘要。
