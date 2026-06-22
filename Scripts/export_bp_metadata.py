@@ -14,7 +14,7 @@ export_bp_metadata.py — UE5 蓝图资产元数据导出工具
      import export_bp_metadata
      export_bp_metadata.main()
 
-输出文件：/Path/To/Your/UE_Project/AssessStatus_Json/ue_blueprint_status_<项目名>.json
+输出文件：<项目根>/AssessStatus_Json/ue_blueprint_status_<项目名>.json
 """
 
 from __future__ import annotations
@@ -36,11 +36,14 @@ _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUTPUT_DIR: str = os.path.join(_PROJECT_ROOT, "AssessStatus_Json")
 
 def _get_project_name() -> str:
-    """从项目根目录的 .uproject 文件名提取项目名"""
+    """从项目根目录的 .uproject 文件名提取项目名。找不到则抛异常，禁止静默回退。"""
     for f in os.listdir(_PROJECT_ROOT):
         if f.endswith(".uproject"):
             return f.replace(".uproject", "")
-    return "UnknownProject"
+    raise FileNotFoundError(
+        f"[FATAL] 项目根目录 {_PROJECT_ROOT} 下未找到 .uproject 文件，无法确定项目名。"
+        "请确保在 UE 项目根目录下运行此脚本。"
+    )
 
 OUTPUT_FILE: str = f"ue_blueprint_status_{_get_project_name()}.json"
 

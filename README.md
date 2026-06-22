@@ -191,7 +191,7 @@ E:\UE_5.7\Engine\Build\BatchFiles\Build.bat YourProjectEditor Win64 Development 
 │                                                      │
 │  [蓝图资产] → C++ BlueprintTopologyExporter           │
 │              → Python export_bp_metadata.py           │
-│              → ue_blueprint_status.json (1.2MB)       │
+│              → AssessStatus_Json/ue_blueprint_status_<项目名>.json (1.2MB) │
 └─────────────────────┬────────────────────────────────┘
                       │
                       ▼
@@ -253,9 +253,9 @@ UBlueprint
 
 ### ⚠️ 知识产权保护（重要）
 
-本工具链导出的 `ue_blueprint_status.json` 包含完整的蓝图节点拓扑——即你的**核心游戏逻辑**。请严格遵守以下规则：
+本工具链导出的 `AssessStatus_Json/ue_blueprint_status_<项目名>.json` 包含完整的蓝图节点拓扑——即你的**核心游戏逻辑**。请严格遵守以下规则：
 
-- 🚫 **禁止提交** `ue_blueprint_status.json` 到公共 Git 仓库
+- 🚫 **禁止提交** `AssessStatus_Json/` 目录到公共 Git 仓库（`.gitignore` 已默认排除）
 - 🚫 **禁止提交** `Saved/BlueprintTopology/` 目录
 - ✅ 使用仓库自带的 `.gitignore` 文件自动排除敏感输出
 - ✅ 将 `.gitignore` 复制到你的 UE 项目根目录

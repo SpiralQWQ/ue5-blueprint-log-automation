@@ -6,7 +6,8 @@
 模型协同日志/
 
 # 蓝图拓扑 JSON（自动生成，含核心业务逻辑，严禁提交）
-AssessStatus_Json/
+/ue_blueprint_status.json
+/AssessStatus_Json/
 # ============================================
 
 # === 密钥与凭据（绝对不能提交）===
